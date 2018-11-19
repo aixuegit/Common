@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>简单用法</title>
+		<script src="js/pdf.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#pdf_Container{
+				width: 900px;
+				background: lightslategrey;
+			}
+			.PDF_page{
+				position: relative;
+				margin-bottom: 20px;
+				background: #FFFFFF;
+			}
+			.PDF_page_text{
+				position: absolute;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="pdf_Container">
+			
+		</div>
+		<script type="text/javascript">
+			var url = './201705310157.pdf';
+			var PDFDocument = null;
+			pdfjsLib.GlobalWorkerOptions.workerSrc ='./js/pdf.worker.js';
+			pdfjsLib.getDocument(url).then(function (pdf) {
+			  	//pdf pdf文件对象
+			  	PDFDocument = pdf;
+			  	var el = document.getElementById('pdf_Container');
+			  	var pdf_total = pdf._pdfInfo.numPages;
+			  	var contaier_width = el.scrollWidth;
+			  	for (var i = 1;i<= pdf_total;i++){
+			  		//pdf.getPage 获取某一页的pdf内容
+			  		pdf.getPage(i).then(function getPageHelloWorld(page) {
+				      	var scale = 1;
+				      	console.log(page);
+				      	var viewport = page.getViewport(scale);
+				      	scale = contaier_width/viewport.width;
+				      	viewport = page.getViewport(scale);
+				      	var pagebox = document.createElement('div');
+				      	pagebox.className="PDF_page";
+				      	pagebox.style.width = viewport.width +"px";
+				      	pagebox.style.height = viewport.height +"px";
+				      	page.getTextContent().then(function (textContent) {
+    						pagebox.appendChild(buildDom(viewport, textContent));
+				      	})
+				      	el.appendChild(pagebox);
+				    });
+			  	}
+			});
+			function buildDom(viewport,textContent){
+				var pageWrap = document.createElement('div');
+				pageWrap.className="PDF_page_text";
+		      	pageWrap.style.width = viewport.width + "px";
+		      	pageWrap.style.height = viewport.height + "px";
+					// processing all items
+					textContent.items.forEach(function (textItem) {
+					var tx = pdfjsLib.Util.transform(
+					      pdfjsLib.Util.transform(viewport.transform, textItem.transform),
+					      [1, 0, 0, -1, 0, 0]);
+					    var style = textContent.styles[textItem.fontName];
+					    var text = document.createElement('p');
+					    text.style.position = "absolute";
+					    text.style.left = tx[4]+"px";
+					    text.style.top = tx[5]+"px";
+					    text.style.fontSize = tx[0]+"px";
+					    text.style.fontFamily = style.fontFamily;
+					    text.innerHTML = textItem.str;
+					    pageWrap.appendChild(text);
+					  });
+				return pageWrap;
+			}
+		  	function getStyle(obj,name){    
+			    if(obj.currentStyle){    //IE
+			        return obj.currentStyle[name];
+			    } else {
+			        return getComputedStyle(obj,false)[name];    //非IE
+			    }
+			}
+		</script>
+	</body>
+</html>

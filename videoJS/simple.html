@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>videoJS的简单用法</title>
+		<link rel="stylesheet" type="text/css" href="videoJS/dist/video-js.css"/>
+		<script src="videoJS/video.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.video_wrap{
+				position: relative;
+				width: 100%;
+				height: 500px;
+			}
+			.video_wrap video{
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				bottom: 0;
+				left: 0;
+			}
+			.video-js .vjs-time-control{display:block;}
+/*.video-js .vjs-remaining-time{display: none;}*/
+		</style>
+		<script src="videoJS/dist/lang/zh-CN.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="video_wrap">
+			<video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered"  preload="none"   poster="http://vjs.zencdn.net/v/oceans.png" data-setup="{}">
+			    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+			    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+			    <source src="http://vjs.zencdn.net/v/oceans.ogv" type="video/ogg">
+			    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+			</video>
+		</div>
+		<script type="text/javascript">
+			var player = videojs('my-video', {
+				echOrder: ["html5", "flash", "other supported tech"],
+				/*是否显示控制器*/
+				controls:true,
+				controlBar: {
+					/*播放按钮*/
+					"playToggle":true,
+					/* 音量面板  */
+					"volumePanel": {
+						/*控制音量修改面板为水平或垂直方向，true 水平，false 垂直*/
+						inline: false,
+					},
+					/*是否生成当前时间组件 该组件css默认隐藏，需修改css代码*/
+					"currentTimeDisplay": true,
+					/*是否生成当前时间与总时间之间的/号组件，该组件css默认隐藏 */
+					"timeDivider": true,
+					/*是否生成总时间之间的组件，该组件css默认隐藏 */
+					"durationDisplay": true,
+					/* 是否生成进度条*/
+					"progressControl": true,
+					/*是否生成在线直播文字*/
+					"liveDisplay": false,
+					/*是否倒计时显示剩余时间*/
+					"remainingTimeDisplay": false,
+					"customControlSpacer": false,
+					/* 生成播放倍速组件 */
+					"playbackRateMenuButton": true,
+					/*是否显示段落按钮*/
+					"chaptersButton": false,
+					/*是否生成描述组件*/
+					"descriptionsButton": "asdfasd",
+					/*是否生成段落按钮*/
+					"subsCapsButton": false,
+					/*是否生成音轨组件*/
+					"audioTrackButton": true,
+					/*是否生成全屏按钮*/
+					"fullscreenToggle": true
+				},
+				/*是否静音*/
+				muted: false,
+				/* 自动播放 */
+			  	autoplay: false,
+			  	/*fill  */
+			  	fill:true,
+			  	/* playbackRates 视频播放倍数 */
+			  	playbackRates: [0.5, 1, 1.5, 2],
+			  	inactivityTimeout: 1000,
+			  	nativeControlsForTouch: false,
+			  	remainingTime: false,
+			},function(){
+				console.log("准备好了");
+				//this.play();
+			});
+		</script>
+	</body>
+</html>
