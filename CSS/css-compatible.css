@@ -1,0 +1,17 @@
+/**
+ * 
+ */
+.clearfloat::after{
+	content:".";
+    clear:both;
+    display:block;
+    height:0;
+    overflow:hidden;
+    visibility:hidden;
+}
+.clearfloat{
+	*zoom:1;
+}
+.flex:after{
+	display: none;
+}

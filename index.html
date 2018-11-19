@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="Script/Date.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#app{
+				display: none;
+				
+			}
+			.box{
+				float: left;
+				height: 100px;
+			}
+			.box img{
+				width: auto;
+				height: auto;
+			}
+			.dialog{
+				position: fixed;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				left: 0px;
+			}
+			.dialog-modal{
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				bottom: 0px;
+				left: 0px;
+				background: #000000;
+				opacity: 0.4;
+			}
+			.dialog-content{
+				position: relative;
+				background: #FFFFFF;
+			}
+			.tabs{
+				overflow: hidden;
+			}
+			.tabs .tabs-header{
+				text-align: center;
+				border-bottom: 1px solid #FFA500;
+			}
+			.tabs-nav{
+				margin: 0px auto;
+				padding: 0px;
+				display: inline-block;
+				vertical-align: top;
+			}
+			.tabs-nav:after{
+				content: "";
+				display: table;
+				clear: both;
+			}
+			.tabs-nav > li{
+				float: left;
+				list-style: none;
+			}
+			.tabs-nav > li > a{
+				position: relative;
+				padding: 20px 15px;
+				display: block;
+				text-decoration: none;
+			}
+			.tabs-nav > li.active > a:before{
+				border-bottom: 11px solid #FFA500;
+				border-left: 11px solid transparent;
+				border-right: 11px solid transparent;
+				content: "";
+				position: absolute;
+				left: 50%;
+				margin-left: -11px;
+				bottom: 0px;
+			}
+			.tabs-nav > li.active > a:after{
+				border-bottom: 11px solid #FFFFFF;
+				border-left: 11px solid transparent;
+				border-right: 11px solid transparent;
+				content: "";
+				position: absolute;
+				left: 50%;
+				margin-left: -11px;
+				bottom: -1px;
+			}
+			.tabs-content > .tab-panel{
+				display: none;
+			}
+			.tabs-content > .tab-panel.active{
+				display: block;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+	    <svg width="300px" height="100px">
+	      <rect x="0" y="0" width="300" height="100" stroke="black" stroke-width="1" />
+	      <rect x="0" y="0" width="20" height="20" fill="blue" stroke="black" stroke-width="1">
+	        <animateMotion path="M 250,80 H 50 Q 30,80 30,50 Q 30,20 50,20 H 250 Q 280,20,280,50 Q 280,80,250,80Z"
+	          dur="3s" repeatCount="indefinite" rotate="auto">
+	      </rect>
+	    </svg>
+	    <div></div>
+	    <div class="tabs">
+	    	<div class="tabs-header">
+	    		<ul class="tabs-nav">
+	    			<li class="active">
+	    				<a href="javascript:void(0)">
+	    					tabs-1
+	    				</a>
+	    			</li>
+	    			<li>
+	    				<a href="javascript:void(0)">
+	    					tabs-1
+	    				</a>
+	    			</li>
+	    			<li>
+	    				<a href="javascript:void(0)">
+	    					tabs-1
+	    				</a>
+	    			</li>
+	    		</ul>
+	    	</div>
+	    	<div class="tabs-content">
+	    		<div class="tab-panel active">
+	    			tabs_1
+	    		</div>
+	    		<div class="tab-panel">
+	    			tabs_2
+	    		</div>
+	    	</div>
+	    </div>
+	    <script src="Script/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="Script/jq.plugs.js" type="text/javascript" charset="utf-8"></script>
+	    <script type="text/javascript">
+	    	!function($){
+	    		function tabs (obj,fn){
+	    			this.selectBack = typeof fn === "function" ? fn : function (index){};
+	    			this.obj = $(obj);
+	    		}
+	    		tabs.prototype={
+	    			init:function(){
+	    				var _this = this;
+	    				this.obj.find(".tabs-navs").on("click","a",function(e){
+		    				e = window.event || e;
+		    				var el = e.target ? e.target : e.srcElement;
+		    				var index = $(el).parents("li").index();
+		    				_this.selectBack(index);
+		    				_this.showTabPanel(index);
+		    			});
+		    			return this;
+	    			},
+	    			showTabPanel:function(index){
+	    				this.obj.find(".tab-panel").removeClass("active").eq(index).addClass("active");;
+	    				this.obj.find(".tabs-nav li").removeClass("active").eq(index).addClass("active");
+	    				return this;
+	    			}
+	    		};
+	    		$.fn.lhjTabs = function(selectBack){
+	    			tabs(this);
+	    			return new tabs(this,selectBack).init();
+	    		}
+	    	}(jQuery);
+	    	$(".tabs").lhjTabs(function(index){
+	    		
+	    	});
+	    </script>
+	</body>
+</html>

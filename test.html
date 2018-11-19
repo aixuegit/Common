@@ -1,0 +1,53 @@
+
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul{
+				list-style: none;
+			}
+		</style>
+		<script src="Script/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<ul>
+			<li>这是第1个li标签</li>
+			<li>这是第2个li标签</li>
+			<li>这是第3个li标签</li>
+			<li>这是第4个li标签</li>
+			<li>这是第5个li标签</li>
+			<li>这是第6个li标签</li>
+			<li>这是第7个li标签</li>
+			<li>这是第8个li标签</li>
+			<li>这是第9个li标签</li>
+			<li>这是第10个li标签</li>
+		</ul>
+		<em>This text is emphasized</em>
+		<script>
+			function Select(obj){
+				this.show = false;
+				this.isobj = true;
+				this.obj = obj;
+				document.addEventListener("click",function(e){
+					e = window.event || e;
+					var el = e.target || e.srcElement;
+					while(el){
+						if(el === obj){
+							isobj = true;
+							return ;
+						}else {
+							isobj = false;
+						}
+					}
+					if(!isobj || show){
+						obj.style.display = "none";
+						show = false;
+					}
+					return false;
+				},true);
+			}
+//			/new Select(document.getElementsByClassName('.select-box')[0]);
+		</script>
+	</body>
+</html>
